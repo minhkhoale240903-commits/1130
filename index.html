@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8f2428">
+  <meta name="description" content="1130 — Không gian khám phá lịch sử cách mạng, nhân vật và tư liệu lịch sử.">
+  <title>1130 — Không gian lịch sử</title>
+  <style>
+    :root {
+      --red: #8f2428;
+      --red-dark: #68191d;
+      --paper: #f8f6f0;
+      --white: #fffefa;
+      --ink: #292923;
+      --muted: #777368;
+      --line: #e7e1d5;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.75 Arial, sans-serif;
+    }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; }
+    .wrap { width: min(1100px, 91%); margin: auto; }
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav {
+      min-height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+    .brand {
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--red);
+    }
+    .navlinks { display: flex; gap: 22px; font-size: 14px; }
+    .navlinks a:hover, .back:hover { color: var(--red); }
+
+    .hero {
+      padding: 75px 0 65px;
+      background: #eee6d8;
+      border-bottom: 1px solid #e1d7c6;
+    }
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--red);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    h1, h2, .article-title {
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    h1 {
+      max-width: 760px;
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 1.1;
+      margin: 16px 0;
+      letter-spacing: -1.8px;
+    }
+    .intro { max-width: 670px; color: #575147; }
+    .search {
+      display: flex;
+      gap: 9px;
+      max-width: 650px;
+      margin-top: 27px;
+    }
+    input, select {
+      background: var(--white);
+      border: 1px solid #d8d0c2;
+      border-radius: 6px;
+      padding: 12px 14px;
+      min-width: 0;
+    }
+    input { flex: 1; }
+    button.primary {
+      background: var(--red);
+      color: white;
+      border: 0;
+      padding: 12px 19px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    button.primary:hover { background: var(--red-dark); }
+
+    section { padding: 48px 0; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    h2 { font-size: 32px; line-height: 1.25; margin: 5px 0; }
+    h3 { line-height: 1.4; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .era {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 22px;
+    }
+    .era .year { font-size: 23px; font-weight: 800; color: var(--red); }
+    .era p { color: var(--muted); font-size: 14px; }
+
+    .filters { display: flex; gap: 9px; flex-wrap: wrap; }
+    .filter {
+      border: 1px solid var(--line);
+      background: var(--white);
+      border-radius: 22px;
+      padding: 7px 14px;
+      font-size: 13px;
+    }
+    .filter.active { background: var(--red); color: white; border-color: var(--red); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-top {
+      height: 8px;
+      background: var(--red);
+    }
+    .card-content { padding: 20px; flex: 1; }
+    .tag {
+      color: var(--red);
+      background: #f5e9e5;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    .card h3 {
+      font: bold 22px/1.35 Georgia, serif;
+      margin: 15px 0 8px;
+    }
+    .card p { font-size: 14px; color: var(--muted); }
+    .read {
+      display: inline-block;
+      margin-top: 10px;
+      border: 0;
+      background: transparent;
+      color: var(--red);
+      font-weight: 700;
+      padding: 0;
+      text-align: left;
+    }
+    .empty { grid-column: 1/-1; padding: 25px; text-align: center; }
+
+    #reader { display: none; min-height: 55vh; }
+    .reader-body { max-width: 760px; margin: auto; }
+    .article-title { font-size: clamp(34px, 5vw, 50px); line-height: 1.2; }
+    .article-text { font-size: 17px; white-space: pre-line; }
+    .source-box {
+      margin-top: 32px;
+      border-left: 3px solid var(--red);
+      padding: 12px 18px;
+      background: #eee6d8;
+      font-size: 14px;
+    }
+    .back {
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--red);
+      margin-bottom: 24px;
+    }
+    .about { background: #eee6d8; }
+    footer { background: #292923; color: #f8f6f0; padding: 30px 0; }
+    footer p { color: #c9c4b8; font-size: 13px; }
+    .notice { font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 760px) {
+      .timeline, .grid { grid-template-columns: 1fr; }
+      .hero { padding: 48px 0; }
+      .search { flex-direction: column; }
+      .navlinks { gap: 12px; font-size: 12px; flex-wrap: wrap; }
+      .section-head { align-items: start; }
+    }
+    @media (max-width: 430px) {
+      nav { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .navlinks { padding-bottom: 7px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand" id="homeLogo">1130</a>
+    <div class="navlinks">
+      <a href="#timeline">Dòng thời gian</a>
+      <a href="#library">Thư viện</a>
+      <a href="#about">Giới thiệu</a>
+    </div>
+  </nav>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Không gian lịch sử và tư liệu</div>
+      <h1>Hiểu lịch sử.<br>Kết nối các thế hệ.</h1>
+      <p class="intro">
+        1130 là không gian tìm hiểu lịch sử cách mạng thông qua
+        sự kiện, nhân vật, bài viết chuyên đề và tư liệu tham khảo.
+        Mỗi câu chuyện là một cơ hội để hiểu rõ hơn quá khứ.
+      </p>
+      <form class="search" id="searchForm">
+        <input id="searchInput" type="search"
+          placeholder="Tìm sự kiện, nhân vật, tư liệu..."
+          aria-label="Tìm kiếm trong thư viện">
+        <button class="primary" type="submit">Tìm kiếm</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Theo dấu thời gian</div>
+          <h2>Dòng thời gian</h2>
+        </div>
+        <p class="muted">Chọn một giai đoạn để khám phá nội dung.</p>
+      </div>
+      <div class="timeline">
+        <article class="era">
+          <div class="year">1858–1930</div>
+          <h3>Bối cảnh và phong trào yêu nước</h3>
+          <p>Tìm hiểu bối cảnh lịch sử và các phong trào đấu tranh đầu thời cận đại.</p>
+          <button class="read" data-era="early">Khám phá →</button>
+        </article>
+        <article class="era">
+          <div class="year">1930–1945</div>
+          <h3>Phong trào cách mạng</h3>
+          <p>Những tổ chức, sự kiện và biến chuyển trước Cách mạng Tháng Tám.</p>
+          <button class="read" data-era="revolution">Khám phá →</button>
+        </article>
+        <article class="era">
+          <div class="year">1945 trở đi</div>
+          <h3>Một giai đoạn mới</h3>
+          <p>Các sự kiện quan trọng trong lịch sử Việt Nam hiện đại.</p>
+          <button class="read" data-era="modern">Khám phá →</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="library">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Thư viện 1130</div>
+          <h2>Khám phá nội dung</h2>
+        </div>
+        <span class="muted" id="resultCount"></span>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="filter active" data-category="all">Tất cả</button>
+        <button class="filter" data-category="event">Sự kiện</button>
+        <button class="filter" data-category="person">Nhân vật</button>
+        <button class="filter" data-category="document">Tư liệu</button>
+      </div>
+      <div class="grid" id="articleGrid" style="margin-top:22px"></div>
+      <p class="notice">
+        Nội dung hiện tại là bản mẫu khởi đầu. Cần bổ sung nguồn kiểm chứng
+        cho từng bài trước khi xuất bản chính thức.
+      </p>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="eyebrow">Về 1130</div>
+      <h2>Một không gian để tìm hiểu và lưu giữ lịch sử</h2>
+      <p style="max-width:720px">
+        Chúng tôi hướng đến việc tổ chức kiến thức lịch sử theo cách dễ đọc,
+        có cấu trúc và có thể truy nguyên nguồn tư liệu.
+      </p>
+      <p class="muted">
+        Các bài viết nên nêu tác giả, ngày cập nhật, tài liệu tham khảo
+        và thông tin bản quyền hình ảnh.
+      </p>
+    </div>
+  </section>
+</main>
+
+<section id="reader">
+  <div class="wrap reader-body">
+    <button class="back" id="backButton">← Quay lại thư viện</button>
+    <div id="readerContent"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="#" class="brand" style="color:#fff">1130</a>
+    <p>Không gian lịch sử, tư liệu và tri thức.</p>
+    <p>© <span id="year"></span> 1130. Bảo lưu các quyền phù hợp.</p>
+  </div>
+</footer>
+
+<script>
+  // Dữ liệu mẫu của website. Bổ sung nguồn đáng tin cậy trước khi xuất bản.
+  const articles = [
+    {
+      id: "context",
+      title: "Bối cảnh Việt Nam đầu thế kỷ XX",
+      category: "event",
+      label: "Bối cảnh lịch sử",
+      date: "Giai đoạn 1900–1930",
+      era: "early",
+      description: "Những chuyển biến xã hội, chính trị và các phong trào yêu nước.",
+      content: `Đầu thế kỷ XX là giai đoạn có nhiều chuyển biến trong đời sống xã hội Việt Nam dưới chế độ thuộc địa.
+
+Các phong trào yêu nước diễn ra với nhiều khuynh hướng, phương thức hoạt động và mục tiêu khác nhau. Việc tìm hiểu giai đoạn này cần đặt sự kiện trong bối cảnh lịch sử cụ thể, đồng thời đối chiếu các nguồn tư liệu.
+
+Bài viết chi tiết cần được biên tập, bổ sung dẫn chứng và tài liệu tham khảo trước khi công bố.`,
+      sources: "Bổ sung công trình nghiên cứu, tư liệu lưu trữ và xuất bản phẩm có thông tin thư mục đầy đủ."
+    },
+    {
+      id: "1945",
+      title: "Cách mạng Tháng Tám năm 1945",
+      category: "event",
+      label: "Sự kiện",
+      date: "Tháng 8 năm 1945",
+      era: "revolution",
+      description: "Khám phá bối cảnh, diễn biến và ý nghĩa lịch sử của sự kiện.",
+      content: `Cách mạng Tháng Tám năm 1945 là một bước ngoặt lớn trong lịch sử Việt Nam hiện đại.
+
+Để tìm hiểu sự kiện, cần xem xét tình hình trong nước và quốc tế, diễn biến tại các địa phương, vai trò của các lực lượng tham gia và những thay đổi về chính trị sau đó.
+
+Đây là phần giới thiệu mẫu, chưa phải bài nghiên cứu hoàn chỉnh.`,
+      sources: "Cần bổ sung nguồn sử học, văn kiện và tư liệu lưu trữ đã được xác minh."
+    },
+    {
+      id: "biography",
+      title: "Tìm hiểu nhân vật qua sử liệu",
+      category: "person",
+      label: "Nhân vật",
+      date: "Chuyên đề phương pháp",
+      era: "all",
+      description: "Cách tiếp cận tiểu sử, hoạt động và đóng góp qua các nguồn tư liệu.",
+      content: `Nghiên cứu nhân vật lịch sử cần phân biệt tư liệu gốc, hồi ký, công trình nghiên cứu và các bài viết phổ thông.
+
+Khi trình bày một nhân vật, nên ghi rõ mốc thời gian, bối cảnh, nguồn trích dẫn và những điểm còn có cách diễn giải khác nhau.
+
+Nội dung mẫu này giới thiệu phương pháp nghiên cứu, không thay thế một hồ sơ tiểu sử đã được kiểm chứng.`,
+      sources: "Bổ sung tài liệu tiểu sử và nguồn lưu trữ liên quan đến nhân vật cụ thể."
+    },
+    {
+      id: "documents",
+      title: "Cách đọc và kiểm chứng tư liệu lịch sử",
+      category: "document",
+      label: "Tư liệu",
+      date: "Cẩm nang đọc tư liệu",
+      era: "all",
+      description: "Nhận diện xuất xứ tài liệu, tác giả, thời điểm và bối cảnh hình thành.",
+      content: `Một tư liệu lịch sử cần được xem xét trong bối cảnh nó được tạo ra.
+
+Độc giả nên kiểm tra tác giả hoặc cơ quan lưu trữ, thời điểm công bố, bản gốc hay bản sao, mục đích hình thành và các nguồn đối chiếu độc lập.
+
+Với hình ảnh, cần kiểm tra chú thích, niên đại, địa điểm và quyền sử dụng. Không nên coi một hình ảnh chưa rõ xuất xứ là bằng chứng xác nhận một sự kiện.`,
+      sources: "Bổ sung hướng dẫn nghiên cứu sử học và thông tin lưu trữ cụ thể."
+    },
+    {
+      id: "dienbienphu",
+      title: "Chiến thắng Điện Biên Phủ năm 1954",
+      category: "event",
+      label: "Sự kiện",
+      date: "13/3–7/5/1954",
+      era: "modern",
+      description: "Khái quát chiến dịch và những tác động đối với lịch sử Việt Nam.",
+      content: `Chiến dịch Điện Biên Phủ diễn ra từ ngày 13 tháng 3 đến ngày 7 tháng 5 năm 1954.
+
+Nghiên cứu chiến dịch cần xem xét diễn biến quân sự, hậu cần, bối cảnh ngoại giao, trải nghiệm của những người tham gia và các hệ quả lịch sử.
+
+Bài viết chuyên sâu nên sử dụng bản đồ, tài liệu lưu trữ, hồi ký có xuất xứ rõ ràng và các công trình nghiên cứu đã được thẩm định.`,
+      sources: "Cần bổ sung tài liệu lịch sử quân sự, tư liệu lưu trữ và công trình nghiên cứu."
+    }
+  ];
+
+  const grid = document.getElementById("articleGrid");
+  const search = document.getElementById("searchInput");
+  const reader = document.getElementById("reader");
+  const home = document.getElementById("home");
+  const library = document.getElementById("library");
+
+  let activeCategory = "all";
+  let activeEra = "all";
+
+  function filteredArticles() {
+    const q = search.value.trim().toLocaleLowerCase("vi");
+
+    return articles.filter(a => {
+      const searchable = [
+        a.title, a.description, a.label, a.date, a.content
+      ].join(" ").toLocaleLowerCase("vi");
+
+      return searchable.includes(q)
+        && (activeCategory === "all" || a.category === activeCategory)
+        && (activeEra === "all" || a.era === activeEra || a.era === "all");
+    });
+  }
+
+  function render() {
+    const items = filteredArticles();
+    grid.replaceChildren();
+    document.getElementById("resultCount").textContent =
+      items.length + " bài viết";
+
+    if (!items.length) {
+      const empty = document.createElement("p");
+      empty.className = "empty";
+      empty.textContent = "Chưa tìm thấy nội dung phù hợp.";
+      grid.appendChild(empty);
+      return;
+    }
+
+    items.forEach(a => {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const stripe = document.createElement("div");
+      stripe.className = "card-top";
+
+      const body = document.createElement("div");
+      body.className = "card-content";
+
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = a.label;
+
+      const date = document.createElement("div");
+      date.className = "muted";
+      date.style.marginTop = "12px";
+      date.textContent = a.date;
+
+      const title = document.createElement("h3");
+      title.textContent = a.title;
+
+      const desc = document.createElement("p");
+      desc.textContent = a.description;
+
+      const link = document.createElement("button");
+      link.className = "read";
+      link.textContent = "Đọc bài viết →";
+      link.addEventListener("click", () => openArticle(a.id));
+
+      body.append(tag, date, title, desc, link);
+      card.append(stripe, body);
+      grid.appendChild(card);
+    });
+  }
+
+  function openArticle(id) {
+    const a = articles.find(item => item.id === id);
+    if (!a) return;
+
+    const content = document.getElementById("readerContent");
+    content.replaceChildren();
+
+    const eyebrow = document.createElement("div");
+    eyebrow.className = "eyebrow";
+    eyebrow.textContent = a.label;
+
+    const title = document.createElement("h1");
+    title.className = "article-title";
+    title.textContent = a.title;
+
+    const date = document.createElement("p");
+    date.className = "muted";
+    date.textContent = a.date + " · Thư viện 1130";
+
+    const body = document.createElement("div");
+    body.className = "article-text";
+    body.textContent = a.content;
+
+    const source = document.createElement("div");
+    source.className = "source-box";
+    const sourceTitle = document.createElement("strong");
+    sourceTitle.textContent = "Nguồn tham khảo và biên tập";
+    const sourceText = document.createElement("p");
+    sourceText.textContent = a.sources;
+    source.append(sourceTitle, sourceText);
+
+    content.append(eyebrow, title, date, body, source);
+
+    home.style.display = "none";
+    reader.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    history.replaceState(null, "", "#article-" + id);
+  }
+
+  function closeArticle() {
+    reader.style.display = "none";
+    home.style.display = "block";
+    history.replaceState(null, "", "#library");
+    window.scrollTo({ top: library.offsetTop - 70, behavior: "smooth" });
+  }
+
+  document.getElementById("backButton").addEventListener("click", closeArticle);
+
+  document.getElementById("searchForm").addEventListener("submit", e => {
+    e.preventDefault();
+    activeEra = "all";
+    render();
+    library.scrollIntoView({ behavior: "smooth" });
+  });
+
+  search.addEventListener("input", render);
+
+  document.getElementById("filters").addEventListener("click", e => {
+    const btn = e.target.closest("[data-category]");
+    if (!btn) return;
+
+    activeCategory = btn.dataset.category;
+    activeEra = "all";
+
+    document.querySelectorAll(".filter").forEach(b =>
+      b.classList.toggle("active", b === btn)
+    );
+    render();
+  });
+
+  document.querySelectorAll("[data-era]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeEra = btn.dataset.era;
+      activeCategory = "all";
+      search.value = "";
+
+      document.querySelectorAll(".filter").forEach(b =>
+        b.classList.toggle("active", b.dataset.category === "all")
+      );
+      render();
+      library.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+
+  document.getElementById("homeLogo").addEventListener("click", e => {
+    e.preventDefault();
+    reader.style.display = "none";
+    home.style.display = "block";
+    history.replaceState(null, "", location.pathname);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  render();
+</script>
+</body>
+</html>
